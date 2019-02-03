@@ -7,6 +7,32 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
+    <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab1"
+                android:layout_width="wrap_content"
+                android:text="Item1"
+                android:layout_height="wrap_content"/>
+
+        <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab2"
+                android:layout_width="wrap_content"
+                android:text="Item2"
+                android:layout_height="wrap_content"/>
+
+        <com.google.android.material.tabs.TabItem
+                android:id="@+id/tab3"
+                android:layout_width="wrap_content"
+                android:text="Item3"
+                android:layout_height="wrap_content"/>
+    </com.google.android.material.tabs.TabLayout>
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
