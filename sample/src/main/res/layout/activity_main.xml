@@ -49,7 +49,6 @@
             android:layout_height="48dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="8dp"
             android:id="@+id/spreader_tab_layout"
             app:layout_constraintTop_toBottomOf="@+id/tab_layout">
 
