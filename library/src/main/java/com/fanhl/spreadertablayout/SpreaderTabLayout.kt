@@ -42,14 +42,11 @@ class SpreaderTabLayout @JvmOverloads constructor(
         tabsWrapperProvider.draw(canvas ?: return, position)
     }
 
-    @Dimension(unit = 1)
-    internal fun dpToPx(@Dimension(unit = 0) dps: Int): Int {
-        return Math.round(this.resources.displayMetrics.density * dps.toFloat())
-    }
-
     companion object {
         @Dimension(unit = 0)
         private const val DEFAULT_HEIGHT = 48
+        @Dimension(unit = 0)
+        private val TAB_MIN_WIDTH_MARGIN = 56
     }
 
     /**
@@ -75,7 +72,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
         }
 
         override fun draw(canvas: Canvas, position: Float) {
-            canvas.drawRect(0F, 0F, 100F, canvas.height.toFloat(), paint)
+            canvas.drawRect(0F, 0F, TAB_MIN_WIDTH_MARGIN.pxf, canvas.height.toFloat(), paint)
         }
     }
 }
