@@ -47,6 +47,9 @@ class SpreaderTabLayout @JvmOverloads constructor(
         private const val DEFAULT_HEIGHT = 48
         @Dimension(unit = 0)
         private val TAB_MIN_WIDTH_MARGIN = 56
+        /** 展开后的tab的最小宽度 */
+        @Dimension(unit = 0)
+        private val TAB_EXPANDED_MIN_WIDTH_MARGIN = 256
     }
 
     /**
