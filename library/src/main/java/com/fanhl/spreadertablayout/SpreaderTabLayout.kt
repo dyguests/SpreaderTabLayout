@@ -72,9 +72,22 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
         init {
             paint.color = Color.BLUE
+
+            tabCount = 2
         }
 
         override fun draw(canvas: Canvas, position: Float) {
+            if (tabCount == 0) {
+                return
+            }
+
+            if (tabCount == 1) {
+                //fixme
+                return
+            }
+
+            //draw left
+
             canvas.drawRect(0F, 0F, TAB_MIN_WIDTH_MARGIN.pxf, canvas.height.toFloat(), paint)
         }
     }
