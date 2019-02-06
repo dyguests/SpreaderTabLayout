@@ -4,9 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.widget.HorizontalScrollView
 import androidx.annotation.Dimension
+import androidx.core.util.Pools
 import androidx.viewpager.widget.ViewPager.DecorView
 
 /**
@@ -39,7 +41,8 @@ class SpreaderTabLayout @JvmOverloads constructor(
         super.onDraw(canvas)
 
         //FIXME 测试用
-        position = 1.2f
+//        position = 1.2f
+        position = 0f
 
         tabsWrapperProvider.draw(canvas ?: return, position)
     }
@@ -77,6 +80,9 @@ class SpreaderTabLayout @JvmOverloads constructor(
         private val collapsedPaint = Paint()
         private val expandedPaint = Paint()
 
+        //缓存的RectF池
+        private val rectFPool by lazy { Pools.SimplePool<RectF>(12) }
+
         init {
             collapsedPaint.apply {
                 color = Color.RED
@@ -89,8 +95,6 @@ class SpreaderTabLayout @JvmOverloads constructor(
         }
 
         override fun draw(canvas: Canvas, position: Float) {
-            val width = canvas.width
-
             if (tabCount == 0) {
                 return
             }
@@ -100,25 +104,80 @@ class SpreaderTabLayout @JvmOverloads constructor(
                 return
             }
 
-            //左边有几个完全收缩的tabItem
-            val positionInt = position.toInt()
+            //以下是draw tab 背景
 
-            //绘制当前tab左边的收缩后的tab
-            if (positionInt > 0) {
-                val tabWidth = calculateTabWidth(positionInt)
-//                canvas.drawRect(0F, 0F, tabWidth, canvas.height.toFloat(), expandedPaint)
-                canvas.drawLine(0F, 0F, tabWidth, canvas.height.toFloat(), expandedPaint)
+            val width = canvas.width
+            val height = canvas.height
+            //剩余宽度
+            var widthRemaining = width.toFloat()
+
+            if (position == 0F) {
+                val leftTabRectF = rectFPool.acquire() ?: RectF()
+                val rightTabRectF = rectFPool.acquire() ?: RectF()
+
+                val rightTabWidth = calculateTabWidth(tabCount - 1)
+
+                rightTabRectF.apply {
+                    left = width - rightTabWidth
+                    top = 0f
+                    right = width.toFloat()
+                    bottom = height.toFloat()
+                }
+
+                widthRemaining -= rightTabWidth
+
+                leftTabRectF.apply {
+                    left = 0f
+                    top = 0f
+                    right = widthRemaining
+                    bottom = height.toFloat()
+                }
+
+                widthRemaining = 0f
+
+                drawTab(canvas, leftTabRectF)
+                drawTab(canvas, rightTabRectF)
+
+                rectFPool.release(leftTabRectF)
+                rectFPool.release(rightTabRectF)
             }
 
-            //右边有几个完全收缩的tabItem
-            val positionReverseInt = (tabCount - 1 - position).toInt()
+//            //FIXME 以下废弃
+//            // -------------------- 这里draw tabs --------------------
+//
+//            //左边有几个完全收缩的tabItem
+//            val positionInt = position.toInt()
+//
+//            //绘制当前tab左边的收缩后的tab
+//            if (positionInt > 0) {
+//                val tabWidth = calculateTabWidth(positionInt)
+////                canvas.drawRect(0F, 0F, tabWidth, canvas.height.toFloat(), expandedPaint)
+//                canvas.drawLine(0F, 0F, tabWidth, canvas.height.toFloat(), expandedPaint)
+//            }
+//
+//            //绘制在收缩、展开中的tabItem
+//
+//            //position的小数部分
+//            val positionDecimal = position - positionInt
+//
+//
+//            //右边有几个完全收缩的tabItem
+//            val positionReverseInt = (tabCount - 1 - position).toInt()
+//
+//            //绘制当前tab右边的收缩后的tab
+//            if (positionReverseInt > 0) {
+//                val tabWidth = calculateTabWidth(positionInt)
+////            canvas.drawRect(0F, 0F, TAB_MIN_WIDTH.pxf, canvas.height.toFloat(), expandedPaint)
+//                canvas.drawLine(widthRemaining.toFloat() - tabWidth, 0F, widthRemaining.toFloat(), canvas.height.toFloat(), expandedPaint)
+//            }
+        }
 
-            //绘制当前tab右边的收缩后的tab
-            if (positionReverseInt > 0) {
-                val tabWidth = calculateTabWidth(positionInt)
-//            canvas.drawRect(0F, 0F, TAB_MIN_WIDTH.pxf, canvas.height.toFloat(), expandedPaint)
-                canvas.drawLine(width.toFloat() - tabWidth, 0F, width.toFloat(), canvas.height.toFloat(), expandedPaint)
-            }
+        /**
+         * 绘制背景tab
+         */
+        private fun drawTab(canvas: Canvas, rectF: RectF) {
+//            canvas.drawRect(rectF, collapsedPaint)
+            canvas.drawLine(rectF.left, rectF.top, rectF.right, rectF.bottom, expandedPaint)
         }
 
         /**
