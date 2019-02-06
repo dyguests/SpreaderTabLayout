@@ -21,7 +21,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
     var tabsWrapperProvider: ITabsWrapperProvider = DefaultTabsWrapperProvider()
 
     /** FIXME 调试用*/
-    var tabCount = 2
+    var tabCount = 4
 
     var position = 0f
 
@@ -37,19 +37,25 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas?.drawColor(Color.RED)
+
+        //FIXME 测试用
+        position = 1.2f
 
         tabsWrapperProvider.draw(canvas ?: return, position)
     }
 
     companion object {
         @Dimension(unit = 0)
-        private const val DEFAULT_HEIGHT = 48
+        private const val TABS_HEIGHT_DEFAULT = 48
         @Dimension(unit = 0)
-        private val TAB_MIN_WIDTH_MARGIN = 56
+        private val TAB_MIN_WIDTH = 56
+        @Dimension(unit = 0)
+        private val TAB_ITEM_WIDTH_DEFAULT = 48
+        @Dimension(unit = 0)
+        private val TAB_HORIZONTAL_PADDING = 4
         /** 展开后的tab的最小宽度 */
         @Dimension(unit = 0)
-        private val TAB_EXPANDED_MIN_WIDTH_MARGIN = 256
+        private val TAB_EXPANDED_MIN_WIDTH = 256
     }
 
     /**
@@ -68,15 +74,23 @@ class SpreaderTabLayout @JvmOverloads constructor(
     class DefaultTabsWrapperProvider : ITabsWrapperProvider {
         override var tabCount: Int = 0
 
-        private val paint = Paint()
+        private val collapsedPaint = Paint()
+        private val expandedPaint = Paint()
 
         init {
-            paint.color = Color.BLUE
-
-            tabCount = 2
+            collapsedPaint.apply {
+                color = Color.RED
+                strokeWidth = 10.pxf
+            }
+            expandedPaint.apply {
+                color = Color.BLUE
+                strokeWidth = 10.pxf
+            }
         }
 
         override fun draw(canvas: Canvas, position: Float) {
+            val width = canvas.width
+
             if (tabCount == 0) {
                 return
             }
@@ -86,9 +100,34 @@ class SpreaderTabLayout @JvmOverloads constructor(
                 return
             }
 
-            //draw left
+            //左边有几个完全收缩的tabItem
+            val positionInt = position.toInt()
 
-            canvas.drawRect(0F, 0F, TAB_MIN_WIDTH_MARGIN.pxf, canvas.height.toFloat(), paint)
+            //绘制当前tab左边的收缩后的tab
+            if (positionInt > 0) {
+                val tabWidth = calculateTabWidth(positionInt)
+//                canvas.drawRect(0F, 0F, tabWidth, canvas.height.toFloat(), expandedPaint)
+                canvas.drawLine(0F, 0F, tabWidth, canvas.height.toFloat(), expandedPaint)
+            }
+
+            //右边有几个完全收缩的tabItem
+            val positionReverseInt = (tabCount - 1 - position).toInt()
+
+            //绘制当前tab右边的收缩后的tab
+            if (positionReverseInt > 0) {
+                val tabWidth = calculateTabWidth(positionInt)
+//            canvas.drawRect(0F, 0F, TAB_MIN_WIDTH.pxf, canvas.height.toFloat(), expandedPaint)
+                canvas.drawLine(width.toFloat() - tabWidth, 0F, width.toFloat(), canvas.height.toFloat(), expandedPaint)
+            }
+        }
+
+        /**
+         * 当前tab有几个item
+         */
+        @Dimension(unit = 1)
+        private fun calculateTabWidth(tabItemCount: Int): Float {
+            val tabWidth = TAB_HORIZONTAL_PADDING.pxf + TAB_ITEM_WIDTH_DEFAULT.pxf * tabItemCount + TAB_HORIZONTAL_PADDING.pxf
+            return maxOf(tabWidth, TAB_MIN_WIDTH.pxf)
         }
     }
 }
