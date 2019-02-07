@@ -31,35 +31,11 @@ class SpreaderTabLayout @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-//        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-
         val specSizeWidth = View.MeasureSpec.getSize(widthMeasureSpec)
         val specSizeHeight = View.MeasureSpec.getSize(heightMeasureSpec)
-
         setMeasuredDimension(specSizeWidth, specSizeHeight)
 
-        //剩余宽度
-        var widthRemaining = specSizeWidth
-
-        widthRemaining -= TAB_ITEM_WIDTH_DEFAULT.px * childCount
-
-        for (i in 0 until childCount) {
-            val child = getChildAt(i)
-
-            val itemWidth = when (i) {
-                position.floor() -> TAB_ITEM_WIDTH_DEFAULT.px + ((1 + i - position) * widthRemaining).toInt()
-                position.ceil() -> TAB_ITEM_WIDTH_DEFAULT.px + widthRemaining - ((i - position) * widthRemaining).toInt()
-                else -> TAB_ITEM_WIDTH_DEFAULT.px
-            }
-
-            this.measureChild(
-                child,
-                View.MeasureSpec.makeMeasureSpec(itemWidth, View.MeasureSpec.EXACTLY),
-                heightMeasureSpec
-            )
-        }
-
-        tabsWrapperProvider.tabCount = childCount
+        tabsWrapperProvider.onMeasure(this, widthMeasureSpec, heightMeasureSpec, position)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -111,6 +87,8 @@ class SpreaderTabLayout @JvmOverloads constructor(
         /**FIXME*/
         var tabCount: Int
 
+        fun onMeasure(tabLayout: SpreaderTabLayout, widthMeasureSpec: Int, heightMeasureSpec: Int, position: Float)
+
         fun draw(canvas: Canvas, position: Float)
     }
 
@@ -137,6 +115,34 @@ class SpreaderTabLayout @JvmOverloads constructor(
                 color = Color.BLUE
                 strokeWidth = 10.pxf
             }
+        }
+
+        override fun onMeasure(tabLayout: SpreaderTabLayout, widthMeasureSpec: Int, heightMeasureSpec: Int, position: Float) {
+            val specSizeWidth = View.MeasureSpec.getSize(widthMeasureSpec)
+//            val specSizeHeight = View.MeasureSpec.getSize(heightMeasureSpec)
+
+            //剩余宽度
+            var widthRemaining = specSizeWidth
+
+            widthRemaining -= TAB_ITEM_WIDTH_DEFAULT.px * tabLayout.childCount
+
+            for (i in 0 until tabLayout.childCount) {
+                val child = tabLayout.getChildAt(i)
+
+                val itemWidth = when (i) {
+                    position.floor() -> TAB_ITEM_WIDTH_DEFAULT.px + ((1 + i - position) * widthRemaining).toInt()
+                    position.ceil() -> TAB_ITEM_WIDTH_DEFAULT.px + widthRemaining - ((i - position) * widthRemaining).toInt()
+                    else -> TAB_ITEM_WIDTH_DEFAULT.px
+                }
+
+                tabLayout.measureChild(
+                    child,
+                    View.MeasureSpec.makeMeasureSpec(itemWidth, View.MeasureSpec.EXACTLY),
+                    heightMeasureSpec
+                )
+            }
+
+            tabCount = tabLayout.childCount
         }
 
         override fun draw(canvas: Canvas, position: Float) {
