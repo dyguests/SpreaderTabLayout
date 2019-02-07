@@ -3,20 +3,20 @@ package com.fanhl.spreadertablayout
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.widget.HorizontalScrollView
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.Dimension
 import androidx.core.util.Pools
-import androidx.viewpager.widget.ViewPager.DecorView
 
 /**
  * @author fanhl
  */
-@DecorView
+//@DecorView
 class SpreaderTabLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : HorizontalScrollView(context, attrs, defStyleAttr) {
+) : ViewGroup(context, attrs, defStyleAttr) {
     var tabsWrapperProvider: ITabsWrapperProvider = DefaultTabsWrapperProvider()
 
     /** FIXME 调试用*/
@@ -32,6 +32,44 @@ class SpreaderTabLayout @JvmOverloads constructor(
         a.recycle()
 
         tabsWrapperProvider.tabCount = tabCount
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+//        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+
+        val specSizeWidth = View.MeasureSpec.getSize(widthMeasureSpec)
+        val specSizeHeight = View.MeasureSpec.getSize(heightMeasureSpec)
+
+        setMeasuredDimension(specSizeWidth, specSizeHeight)
+
+        val itemWidthMeasureSpec = View.MeasureSpec.makeMeasureSpec(TAB_ITEM_WIDTH_DEFAULT.px, View.MeasureSpec.EXACTLY)
+
+        for (i in 0 until childCount) {
+            val child = getChildAt(i)
+            this.measureChild(
+                child,
+                itemWidthMeasureSpec,
+                heightMeasureSpec
+            )
+        }
+    }
+
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        //剩余宽度
+        var widthUsed = 0
+
+        for (i in 0 until childCount) {
+            val child = getChildAt(i)
+
+            child.layout(
+                widthUsed,
+                0,
+                widthUsed + child.measuredWidth,
+                child.measuredHeight
+            )
+
+            widthUsed += child.measuredWidth
+        }
     }
 
     override fun onDraw(canvas: Canvas?) {
