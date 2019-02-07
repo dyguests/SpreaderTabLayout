@@ -28,7 +28,6 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
         a.recycle()
 
-//        tabsWrapperProvider.tabCount = tabCount
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -48,8 +47,8 @@ class SpreaderTabLayout @JvmOverloads constructor(
             val child = getChildAt(i)
 
             val itemWidth = when (i) {
-                position.floor() -> TAB_ITEM_WIDTH_DEFAULT.px + ((1 - i + position) * widthRemaining).toInt()
-                position.ceil() -> TAB_ITEM_WIDTH_DEFAULT.px + widthRemaining - ((1 - i + position) * widthRemaining).toInt()
+                position.floor() -> TAB_ITEM_WIDTH_DEFAULT.px + ((1 + i - position) * widthRemaining).toInt()
+                position.ceil() -> TAB_ITEM_WIDTH_DEFAULT.px + widthRemaining - ((i - position) * widthRemaining).toInt()
                 else -> TAB_ITEM_WIDTH_DEFAULT.px
             }
 
