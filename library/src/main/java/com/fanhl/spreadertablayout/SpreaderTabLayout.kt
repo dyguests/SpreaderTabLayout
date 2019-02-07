@@ -40,7 +40,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
         setMeasuredDimension(specSizeWidth, specSizeHeight)
 
         //剩余宽度
-        var widthRemaining = width
+        var widthRemaining = specSizeWidth
 
         widthRemaining -= TAB_ITEM_WIDTH_DEFAULT.px * childCount
 
