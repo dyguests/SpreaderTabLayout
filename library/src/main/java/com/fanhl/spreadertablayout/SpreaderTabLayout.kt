@@ -19,9 +19,6 @@ class SpreaderTabLayout @JvmOverloads constructor(
 ) : ViewGroup(context, attrs, defStyleAttr) {
     var tabsWrapperProvider: ITabsWrapperProvider = DefaultTabsWrapperProvider()
 
-    /** FIXME 调试用*/
-    var tabCount = 4
-
     var position = 0f
 
     init {
@@ -31,7 +28,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
         a.recycle()
 
-        tabsWrapperProvider.tabCount = tabCount
+//        tabsWrapperProvider.tabCount = tabCount
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -52,6 +49,8 @@ class SpreaderTabLayout @JvmOverloads constructor(
                 heightMeasureSpec
             )
         }
+
+        tabsWrapperProvider.tabCount = childCount
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
