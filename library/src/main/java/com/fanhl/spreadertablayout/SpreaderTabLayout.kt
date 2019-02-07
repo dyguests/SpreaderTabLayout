@@ -1,10 +1,7 @@
 package com.fanhl.spreadertablayout
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.RectF
+import android.graphics.*
 import android.util.AttributeSet
 import android.widget.HorizontalScrollView
 import androidx.annotation.Dimension
@@ -82,6 +79,8 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
         //缓存的RectF池
         private val rectFPool by lazy { Pools.SimplePool<RectF>(12) }
+        //缓存的PointF池
+        private val pointFPool by lazy { Pools.SimplePool<PointF>(12) }
 
         init {
             collapsedPaint.apply {
@@ -111,36 +110,37 @@ class SpreaderTabLayout @JvmOverloads constructor(
             //剩余宽度
             var widthRemaining = width.toFloat()
 
-            if (position == 0F) {
-                val leftTabRectF = rectFPool.acquire() ?: RectF()
-                val rightTabRectF = rectFPool.acquire() ?: RectF()
 
-                val rightTabWidth = calculateTabWidth(tabCount - 1)
-
-                rightTabRectF.apply {
-                    left = width - rightTabWidth
-                    top = 0f
-                    right = width.toFloat()
-                    bottom = height.toFloat()
-                }
-
-                widthRemaining -= rightTabWidth
-
-                leftTabRectF.apply {
-                    left = 0f
-                    top = 0f
-                    right = widthRemaining
-                    bottom = height.toFloat()
-                }
-
-                widthRemaining = 0f
-
-                drawTab(canvas, leftTabRectF)
-                drawTab(canvas, rightTabRectF)
-
-                rectFPool.release(leftTabRectF)
-                rectFPool.release(rightTabRectF)
-            }
+//            if (position == 0F) {
+//                val leftTabRectF = rectFPool.acquire() ?: RectF()
+//                val rightTabRectF = rectFPool.acquire() ?: RectF()
+//
+//                val rightTabWidth = calculateTabWidth(tabCount - 1)
+//
+//                rightTabRectF.apply {
+//                    left = width - rightTabWidth
+//                    top = 0f
+//                    right = width.toFloat()
+//                    bottom = height.toFloat()
+//                }
+//
+//                widthRemaining -= rightTabWidth
+//
+//                leftTabRectF.apply {
+//                    left = 0f
+//                    top = 0f
+//                    right = widthRemaining
+//                    bottom = height.toFloat()
+//                }
+//
+//                widthRemaining = 0f
+//
+//                drawTab(canvas, leftTabRectF)
+//                drawTab(canvas, rightTabRectF)
+//
+//                rectFPool.release(leftTabRectF)
+//                rectFPool.release(rightTabRectF)
+//            }
 
 //            //FIXME 以下废弃
 //            // -------------------- 这里draw tabs --------------------
