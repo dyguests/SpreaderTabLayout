@@ -14,5 +14,8 @@ class MainActivity : AppCompatActivity() {
 
         tab_layout.tabCount
         tab_layout.selectedTabPosition
+
+        btn_page1.setOnClickListener { spreader_tab_layout.selectedPosition=0 }
+        btn_page2.setOnClickListener { spreader_tab_layout.selectedPosition=1 }
     }
 }
