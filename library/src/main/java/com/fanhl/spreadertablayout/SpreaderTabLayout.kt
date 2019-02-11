@@ -25,7 +25,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
     /** 绘制tabs的提供者 */
     var tabsWrapperProvider: ITabsWrapperProvider = DefaultTabsWrapperProvider()
 
-    var selectedPosition = 0f
+    var selectedPosition = 0
         set(value) {
             if (field == value) {
                 return
@@ -37,7 +37,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
         }
 
     /** 正在动画中的进度 */
-    var animatingPosition = selectedPosition
+    var animatingPosition = selectedPosition.toFloat()
 
     init {
         val theme = context.theme
@@ -94,24 +94,24 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
         //FIXME 测试用
 //        selectedPosition = 1.2f
-        selectedPosition = 0f
+//        selectedPosition = 0
 
-        tabsWrapperProvider.draw(canvas ?: return, selectedPosition)
+        tabsWrapperProvider.draw(canvas ?: return, animatingPosition)
     }
 
     /**
      * 添加tab切换动画
      */
     private fun animatePosition() {
-        if (animatingPosition == selectedPosition) {
+        if (animatingPosition == selectedPosition.toFloat()) {
             return
         }
         var positionAnimator: ValueAnimator? = null
-        positionAnimator = ValueAnimator.ofFloat(animatingPosition, selectedPosition).apply {
+        positionAnimator = ValueAnimator.ofFloat(animatingPosition, selectedPosition.toFloat()).apply {
             duration = 250
             addUpdateListener {
                 animatingPosition = it.animatedValue as? Float ?: return@addUpdateListener
-                invalidate()
+                requestLayout()
             }
         }
         positionAnimator?.start()
