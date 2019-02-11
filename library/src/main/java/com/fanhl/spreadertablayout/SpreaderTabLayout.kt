@@ -1,7 +1,12 @@
 package com.fanhl.spreadertablayout
 
+import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PointF
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +22,22 @@ class SpreaderTabLayout @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : ViewGroup(context, attrs, defStyleAttr) {
+    /** 绘制tabs的提供者 */
     var tabsWrapperProvider: ITabsWrapperProvider = DefaultTabsWrapperProvider()
 
     var position = 0f
+        set(value) {
+            if (field == value) {
+                return
+            }
+
+            field = value
+
+            animatePosition()
+        }
+
+    /** 正在动画中的进度 */
+    var animatingPosition = position
 
     init {
         val theme = context.theme
@@ -79,6 +97,24 @@ class SpreaderTabLayout @JvmOverloads constructor(
         position = 0f
 
         tabsWrapperProvider.draw(canvas ?: return, position)
+    }
+
+    /**
+     * 添加tab切换动画
+     */
+    private fun animatePosition() {
+        if (animatingPosition == position) {
+            return
+        }
+        var positionAnimator: ValueAnimator? = null
+        positionAnimator = ValueAnimator.ofFloat(animatingPosition, position).apply {
+            duration = 250
+            addUpdateListener {
+                animatingPosition = it.animatedValue as? Float ?: return@addUpdateListener
+                invalidate()
+            }
+        }
+        positionAnimator?.start()
     }
 
     companion object {

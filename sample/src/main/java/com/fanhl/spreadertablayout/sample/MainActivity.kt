@@ -13,5 +13,6 @@ class MainActivity : AppCompatActivity() {
         TabLayout::class
 
         tab_layout.tabCount
+        tab_layout.selectedTabPosition
     }
 }
