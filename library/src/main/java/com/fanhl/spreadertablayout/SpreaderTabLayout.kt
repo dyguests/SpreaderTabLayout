@@ -1,7 +1,12 @@
 package com.fanhl.spreadertablayout
 
+import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PointF
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +22,22 @@ class SpreaderTabLayout @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : ViewGroup(context, attrs, defStyleAttr) {
+    /** 绘制tabs的提供者 */
     var tabsWrapperProvider: ITabsWrapperProvider = DefaultTabsWrapperProvider()
 
-    var position = 0f
+    var selectedPosition = 0f
+        set(value) {
+            if (field == value) {
+                return
+            }
+
+            field = value
+
+            animatePosition()
+        }
+
+    /** 正在动画中的进度 */
+    var animatingPosition = selectedPosition
 
     init {
         val theme = context.theme
@@ -60,10 +78,28 @@ class SpreaderTabLayout @JvmOverloads constructor(
         super.onDraw(canvas)
 
         //FIXME 测试用
-//        position = 1.2f
-        position = 0f
+//        selectedPosition = 1.2f
+        selectedPosition = 0f
 
-        tabsWrapperProvider.draw(canvas ?: return, position)
+        tabsWrapperProvider.draw(canvas ?: return, selectedPosition)
+    }
+
+    /**
+     * 添加tab切换动画
+     */
+    private fun animatePosition() {
+        if (animatingPosition == selectedPosition) {
+            return
+        }
+        var positionAnimator: ValueAnimator? = null
+        positionAnimator = ValueAnimator.ofFloat(animatingPosition, selectedPosition).apply {
+            duration = 250
+            addUpdateListener {
+                animatingPosition = it.animatedValue as? Float ?: return@addUpdateListener
+                invalidate()
+            }
+        }
+        positionAnimator?.start()
     }
 
     companion object {
@@ -163,7 +199,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
             var widthRemaining = width.toFloat()
 
 
-//            if (position == 0F) {
+//            if (selectedPosition == 0F) {
 //                val leftTabRectF = rectFPool.acquire() ?: RectF()
 //                val rightTabRectF = rectFPool.acquire() ?: RectF()
 //
@@ -198,7 +234,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
 //            // -------------------- 这里draw tabs --------------------
 //
 //            //左边有几个完全收缩的tabItem
-//            val positionInt = position.toInt()
+//            val positionInt = selectedPosition.toInt()
 //
 //            //绘制当前tab左边的收缩后的tab
 //            if (positionInt > 0) {
@@ -210,11 +246,11 @@ class SpreaderTabLayout @JvmOverloads constructor(
 //            //绘制在收缩、展开中的tabItem
 //
 //            //position的小数部分
-//            val positionDecimal = position - positionInt
+//            val positionDecimal = selectedPosition - positionInt
 //
 //
 //            //右边有几个完全收缩的tabItem
-//            val positionReverseInt = (tabCount - 1 - position).toInt()
+//            val positionReverseInt = (tabCount - 1 - selectedPosition).toInt()
 //
 //            //绘制当前tab右边的收缩后的tab
 //            if (positionReverseInt > 0) {
