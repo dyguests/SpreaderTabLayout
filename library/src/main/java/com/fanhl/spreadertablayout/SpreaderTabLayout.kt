@@ -117,7 +117,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
         spreaderAnim = ValueAnimator.ofFloat(positionProgress, selectedPosition.toFloat())
         spreaderAnim?.addUpdateListener { animator ->
             positionProgress = (animator.animatedValue as? Float ?: return@addUpdateListener)
-            invalidate()
+            requestLayout()
         }
         spreaderAnim?.start()
     }
