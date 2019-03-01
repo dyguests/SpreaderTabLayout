@@ -42,8 +42,8 @@ class SpreaderTabLayout @JvmOverloads constructor(
         val specSizeWidth = View.MeasureSpec.getSize(widthMeasureSpec)
 //        val specSizeHeight = View.MeasureSpec.getSize(heightMeasureSpec)
 
-        val measuredHeightSpec = measureDimension(heightMeasureSpec)
-        setMeasuredDimension(specSizeWidth, measuredHeightSpec)
+        val measuredHeight = measureDimension(heightMeasureSpec)
+        setMeasuredDimension(specSizeWidth, measuredHeight)
 
         //剩余宽度
         var widthRemaining = specSizeWidth
@@ -62,7 +62,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
             measureChild(
                 child,
                 View.MeasureSpec.makeMeasureSpec(itemWidth, View.MeasureSpec.EXACTLY),
-                measuredHeightSpec
+                View.MeasureSpec.makeMeasureSpec(measuredHeight, View.MeasureSpec.EXACTLY)
             )
         }
     }
