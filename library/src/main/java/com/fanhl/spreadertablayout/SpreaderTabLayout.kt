@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -35,8 +36,10 @@ class SpreaderTabLayout @JvmOverloads constructor(
         }
 
     // ---------- 变量 ----------
+    /** 所有child的布局位置 */
+    private val childLayouts = mutableListOf<Rect>()
 
-    var spreaderAnim: ValueAnimator? = null
+    private var spreaderAnim: ValueAnimator? = null
 
     /** 正在动画中的进度 (0f,1f] */
     private var positionProgress = 0f
@@ -48,9 +51,21 @@ class SpreaderTabLayout @JvmOverloads constructor(
         isClickable = true
     }
 
+    override fun onViewAdded(child: View?) {
+        super.onViewAdded(child)
+        childLayouts.add(Rect())
+    }
+
+    override fun onViewRemoved(child: View?) {
+        super.onViewRemoved(child)
+        childLayouts.removeAt(childLayouts.size - 1)
+    }
+
+    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+        return super.onInterceptTouchEvent(ev)
+    }
+
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-
-
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
             }
@@ -68,14 +83,11 @@ class SpreaderTabLayout @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val specSizeWidth = View.MeasureSpec.getSize(widthMeasureSpec)
 //        val specSizeHeight = View.MeasureSpec.getSize(heightMeasureSpec)
-
         val measuredHeight = measureDimension(heightMeasureSpec)
         setMeasuredDimension(specSizeWidth, measuredHeight)
 
         //剩余宽度
-        var widthRemaining = specSizeWidth
-
-        widthRemaining -= TAB_ITEM_WIDTH_DEFAULT * childCount
+        val widthRemaining = specSizeWidth - TAB_ITEM_WIDTH_DEFAULT * childCount
 
         for (i in 0 until childCount) {
             val child = getChildAt(i)
@@ -115,18 +127,24 @@ class SpreaderTabLayout @JvmOverloads constructor(
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         //使用了的宽度
         var widthUsed = 0
-
         for (i in 0 until childCount) {
             val child = getChildAt(i)
-
-            child.layout(
-                widthUsed,
-                0,
-                widthUsed + child.measuredWidth,
-                child.measuredHeight
-            )
+            childLayouts[i].apply {
+                left = widthUsed
+                top = 0
+                right = widthUsed + child.measuredWidth
+                bottom = child.measuredHeight
+            }
 
             widthUsed += child.measuredWidth
+
+
+            child.layout(
+                childLayouts[i].left,
+                childLayouts[i].top,
+                childLayouts[i].right,
+                childLayouts[i].bottom
+            )
 
             // [0,1] 为0时是收到状态，为1时是展开状态
             val spreaderProgress = when (i) {
