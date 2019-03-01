@@ -17,6 +17,7 @@ import androidx.core.util.Pools
  * @author fanhl
  */
 //@DecorView
+@Deprecated("之后删除")
 class SpreaderTabLayout2 @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

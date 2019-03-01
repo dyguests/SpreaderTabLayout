@@ -34,16 +34,6 @@
             android:text="Item3"/>
     </com.google.android.material.tabs.TabLayout>
 
-    <TextView
-        android:id="@+id/text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <com.fanhl.spreadertablayout.SpreaderTabLayout
         android:id="@+id/spreader_tab_layout"
         android:layout_width="0dp"
@@ -70,6 +60,15 @@
             android:maxLines="1"
             android:text="THIRD"/>
     </com.fanhl.spreadertablayout.SpreaderTabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_page2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spreader_tab_layout"/>
 
     <Button
         android:id="@+id/btn_page1"
