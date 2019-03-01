@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
@@ -42,6 +43,16 @@ class SpreaderTabLayout @JvmOverloads constructor(
     init {
         //启用绘制背景
         setWillNotDraw(false)
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        when (event?.action) {
+            MotionEvent.ACTION_DOWN -> {
+            }
+            MotionEvent.ACTION_UP -> {
+            }
+        }
+        return super.onTouchEvent(event)
     }
 
     /**
