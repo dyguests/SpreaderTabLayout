@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import androidx.annotation.Dimension
+import androidx.constraintlayout.motion.widget.MotionLayout
 
 class SpreaderTabLayout @JvmOverloads constructor(
     context: Context,
@@ -106,6 +107,17 @@ class SpreaderTabLayout @JvmOverloads constructor(
             )
 
             widthUsed += itemWidth
+
+            // [0,1] 为0时是收到状态，为1时是展开状态
+            val spreaderProgress = when (i) {
+                positionProgress.floor() -> 1 + i - positionProgress
+                positionProgress.ceil() -> i - positionProgress
+                else -> 0f
+            }
+
+            if (child is MotionLayout) {
+                child.progress = 1 - spreaderProgress
+            }
         }
     }
 
