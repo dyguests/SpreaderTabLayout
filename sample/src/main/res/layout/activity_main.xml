@@ -47,7 +47,7 @@
     <com.fanhl.spreadertablayout.SpreaderTabLayout
         android:id="@+id/spreader_tab_layout"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:background="#2f00"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
