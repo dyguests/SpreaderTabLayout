@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.Dimension
 
 class SpreaderTabLayout @JvmOverloads constructor(
     context: Context,
@@ -16,6 +17,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
     // ---------- 变量 ----------
 
+    private var position = 0f
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val specSizeWidth = View.MeasureSpec.getSize(widthMeasureSpec)
@@ -24,9 +26,23 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
         //剩余宽度
         var widthRemaining = specSizeWidth
-        
-        for (i in 0 until childCount) {
 
+        widthRemaining -= TAB_ITEM_WIDTH_DEFAULT.px * childCount
+
+        for (i in 0 until childCount) {
+            val child = getChildAt(i)
+
+            val itemWidth = when (i) {
+                position.floor() -> TAB_ITEM_WIDTH_DEFAULT + ((1 + i - position) * widthRemaining).toInt()
+                position.ceil() -> TAB_ITEM_WIDTH_DEFAULT + widthRemaining - ((i - position) * widthRemaining).toInt()
+                else -> TAB_ITEM_WIDTH_DEFAULT
+            }
+
+            measureChild(
+                child,
+                View.MeasureSpec.makeMeasureSpec(itemWidth, View.MeasureSpec.EXACTLY),
+                heightMeasureSpec
+            )
         }
     }
 
@@ -69,5 +85,10 @@ class SpreaderTabLayout @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas ?: return)
         canvas.drawCircle(0f, 0f, 100f, paint)
+    }
+
+    companion object {
+        @Dimension(unit = 1)
+        private val TAB_ITEM_WIDTH_DEFAULT = 48.px
     }
 }
