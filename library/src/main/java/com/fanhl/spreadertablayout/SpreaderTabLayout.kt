@@ -35,7 +35,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
     var spreaderAnim: ValueAnimator? = null
 
-    /** 正在动画中的进度 */
+    /** 正在动画中的进度 (0f,1f] */
     private var positionProgress = 0f
 
     /**
