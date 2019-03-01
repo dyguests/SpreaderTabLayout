@@ -44,7 +44,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <com.fanhl.spreadertablayout.SpreaderTabLayout2
+    <com.fanhl.spreadertablayout.SpreaderTabLayout
         android:id="@+id/spreader_tab_layout"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="FOURTH"/>
-    </com.fanhl.spreadertablayout.SpreaderTabLayout2>
+    </com.fanhl.spreadertablayout.SpreaderTabLayout>
 
     <Button
         android:id="@+id/btn_page1"
