@@ -113,12 +113,10 @@ class SpreaderTabLayout @JvmOverloads constructor(
                 else -> 0f
             }
 
-            if (i == 0) {
-                Log.d(TAG, "child$i: $spreaderProgress")
-            }
-
             if (child is MotionLayout) {
                 child.progress = 1 - spreaderProgress
+
+                Log.d(TAG, "child$i: ${child.progress}")
             }
         }
     }
