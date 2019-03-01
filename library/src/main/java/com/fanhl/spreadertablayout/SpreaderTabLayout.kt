@@ -50,14 +50,26 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
         widthRemaining -= TAB_ITEM_WIDTH_DEFAULT * childCount
 
+//        for (i in 0 until childCount) {
+//            val child = getChildAt(i)
+//
+//            val itemWidth = when (i) {
+//                positionProgress.floor() -> TAB_ITEM_WIDTH_DEFAULT + ((1 + i - positionProgress) * widthRemaining).toInt()
+//                positionProgress.ceil() -> TAB_ITEM_WIDTH_DEFAULT + widthRemaining - ((i - positionProgress) * widthRemaining).toInt()
+//                else -> TAB_ITEM_WIDTH_DEFAULT
+//            }
+//
+//            measureChild(
+//                child,
+//                View.MeasureSpec.makeMeasureSpec(itemWidth, View.MeasureSpec.EXACTLY),
+//                View.MeasureSpec.makeMeasureSpec(measuredHeight, View.MeasureSpec.EXACTLY)
+//            )
+//        }
+
         for (i in 0 until childCount) {
             val child = getChildAt(i)
 
-            val itemWidth = when (i) {
-                positionProgress.floor() -> TAB_ITEM_WIDTH_DEFAULT + ((1 + i - positionProgress) * widthRemaining).toInt()
-                positionProgress.ceil() -> TAB_ITEM_WIDTH_DEFAULT + widthRemaining - ((i - positionProgress) * widthRemaining).toInt()
-                else -> TAB_ITEM_WIDTH_DEFAULT
-            }
+            val itemWidth = TAB_ITEM_WIDTH_DEFAULT + widthRemaining
 
             measureChild(
                 child,
