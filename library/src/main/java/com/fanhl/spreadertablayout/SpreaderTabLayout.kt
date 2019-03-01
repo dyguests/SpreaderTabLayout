@@ -21,8 +21,18 @@ class SpreaderTabLayout @JvmOverloads constructor(
         val specSizeWidth = View.MeasureSpec.getSize(widthMeasureSpec)
         val specSizeHeight = View.MeasureSpec.getSize(heightMeasureSpec)
         setMeasuredDimension(specSizeWidth, measureDimension(heightMeasureSpec))
+
+        //剩余宽度
+        var widthRemaining = specSizeWidth
+        
+        for (i in 0 until childCount) {
+
+        }
     }
 
+    /**
+     * 设置最小值是 48dp
+     */
     private fun measureDimension(measureSpec: Int): Int {
         var result: Int
         val mode = View.MeasureSpec.getMode(measureSpec)
