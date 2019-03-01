@@ -40,6 +40,11 @@ class SpreaderTabLayout @JvmOverloads constructor(
     /** 正在动画中的进度 (0f,1f] */
     private var positionProgress = 0f
 
+    init {
+        //启用绘制背景
+        setWillNotDraw(false)
+    }
+
     /**
      * 这里设置的宽度都是展开后的宽度
      */
