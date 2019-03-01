@@ -53,7 +53,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
         val specSizeHeight = View.MeasureSpec.getSize(heightMeasureSpec)
         setMeasuredDimension(specSizeWidth, specSizeHeight)
 
-        tabsWrapperProvider.onMeasure(this, widthMeasureSpec, heightMeasureSpec, position)
+//        tabsWrapperProvider.onMeasure(this, widthMeasureSpec, heightMeasureSpec, position)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
