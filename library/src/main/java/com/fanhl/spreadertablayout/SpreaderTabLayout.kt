@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
@@ -112,6 +113,10 @@ class SpreaderTabLayout @JvmOverloads constructor(
                 else -> 0f
             }
 
+            if (i == 0) {
+                Log.d(TAG, "child$i: $spreaderProgress")
+            }
+
             if (child is MotionLayout) {
                 child.progress = 1 - spreaderProgress
             }
@@ -140,6 +145,8 @@ class SpreaderTabLayout @JvmOverloads constructor(
     }
 
     companion object {
+        private val TAG = SpreaderTabLayout::class.java.simpleName
+
         @Dimension(unit = 1)
         private val TAB_ITEM_WIDTH_DEFAULT = 48.px
     }
