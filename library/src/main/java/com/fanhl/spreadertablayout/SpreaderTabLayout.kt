@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import androidx.annotation.Dimension
 
 class SpreaderTabLayout @JvmOverloads constructor(
@@ -115,6 +116,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
             spreaderAnim?.cancel()
         }
         spreaderAnim = ValueAnimator.ofFloat(positionProgress, selectedPosition.toFloat())
+        spreaderAnim?.interpolator = DecelerateInterpolator()
         spreaderAnim?.addUpdateListener { animator ->
             positionProgress = (animator.animatedValue as? Float ?: return@addUpdateListener)
             requestLayout()
