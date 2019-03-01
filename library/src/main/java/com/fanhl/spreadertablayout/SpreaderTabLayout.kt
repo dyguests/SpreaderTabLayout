@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
+import android.widget.Toast
 import androidx.annotation.Dimension
 import androidx.constraintlayout.motion.widget.MotionLayout
 
@@ -50,9 +51,11 @@ class SpreaderTabLayout @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> {
             }
             MotionEvent.ACTION_UP -> {
+                Toast.makeText(context, "test touch", Toast.LENGTH_LONG).show()
             }
         }
-        return super.onTouchEvent(event)
+//        return super.onTouchEvent(event)
+        return true
     }
 
     /**
