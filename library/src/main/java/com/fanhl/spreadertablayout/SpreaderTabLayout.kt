@@ -44,14 +44,18 @@ class SpreaderTabLayout @JvmOverloads constructor(
     init {
         //启用绘制背景
         setWillNotDraw(false)
+
+        isClickable = true
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
+
+
         when (event?.action) {
             MotionEvent.ACTION_DOWN -> {
             }
             MotionEvent.ACTION_UP -> {
-                Toast.makeText(context, "test touch", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "test touch", Toast.LENGTH_SHORT).show()
             }
         }
 //        return super.onTouchEvent(event)
