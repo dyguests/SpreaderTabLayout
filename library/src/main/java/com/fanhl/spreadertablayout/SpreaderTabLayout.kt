@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
@@ -126,7 +125,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas ?: return)
-        canvas.drawCircle(0f, 0f, 100f, paint)
+//        canvas.drawCircle(0f, 0f, 100f, paint)
     }
 
     /**
