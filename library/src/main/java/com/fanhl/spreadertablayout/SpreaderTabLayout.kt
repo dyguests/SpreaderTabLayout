@@ -38,6 +38,9 @@ class SpreaderTabLayout @JvmOverloads constructor(
     /** 正在动画中的进度 */
     private var positionProgress = 0f
 
+    /**
+     * 这里设置的宽度都是展开后的宽度
+     */
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val specSizeWidth = View.MeasureSpec.getSize(widthMeasureSpec)
 //        val specSizeHeight = View.MeasureSpec.getSize(heightMeasureSpec)
@@ -46,25 +49,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
         setMeasuredDimension(specSizeWidth, measuredHeight)
 
         //剩余宽度
-        var widthRemaining = specSizeWidth
-
-        widthRemaining -= TAB_ITEM_WIDTH_DEFAULT * childCount
-
-//        for (i in 0 until childCount) {
-//            val child = getChildAt(i)
-//
-//            val itemWidth = when (i) {
-//                positionProgress.floor() -> TAB_ITEM_WIDTH_DEFAULT + ((1 + i - positionProgress) * widthRemaining).toInt()
-//                positionProgress.ceil() -> TAB_ITEM_WIDTH_DEFAULT + widthRemaining - ((i - positionProgress) * widthRemaining).toInt()
-//                else -> TAB_ITEM_WIDTH_DEFAULT
-//            }
-//
-//            measureChild(
-//                child,
-//                View.MeasureSpec.makeMeasureSpec(itemWidth, View.MeasureSpec.EXACTLY),
-//                View.MeasureSpec.makeMeasureSpec(measuredHeight, View.MeasureSpec.EXACTLY)
-//            )
-//        }
+        val widthRemaining = specSizeWidth - TAB_ITEM_WIDTH_DEFAULT * childCount
 
         for (i in 0 until childCount) {
             val child = getChildAt(i)
@@ -98,20 +83,29 @@ class SpreaderTabLayout @JvmOverloads constructor(
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        //剩余宽度
+        val widthRemaining = width - TAB_ITEM_WIDTH_DEFAULT * childCount
+
         //使用了的宽度
         var widthUsed = 0
 
         for (i in 0 until childCount) {
             val child = getChildAt(i)
 
+            val itemWidth = when (i) {
+                positionProgress.floor() -> TAB_ITEM_WIDTH_DEFAULT + ((1 + i - positionProgress) * widthRemaining).toInt()
+                positionProgress.ceil() -> TAB_ITEM_WIDTH_DEFAULT + widthRemaining - ((i - positionProgress) * widthRemaining).toInt()
+                else -> TAB_ITEM_WIDTH_DEFAULT
+            }
+
             child.layout(
                 widthUsed,
                 0,
-                widthUsed + child.measuredWidth,
+                widthUsed + itemWidth,
                 child.measuredHeight
             )
 
-            widthUsed += child.measuredWidth
+            widthUsed += itemWidth
         }
     }
 
