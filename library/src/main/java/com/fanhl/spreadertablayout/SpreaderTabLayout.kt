@@ -62,7 +62,8 @@ class SpreaderTabLayout @JvmOverloads constructor(
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-        return super.onInterceptTouchEvent(ev)
+//        return super.onInterceptTouchEvent(ev)
+        return true
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
