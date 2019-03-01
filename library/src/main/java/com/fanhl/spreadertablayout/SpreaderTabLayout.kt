@@ -50,12 +50,18 @@ class SpreaderTabLayout @JvmOverloads constructor(
         setMeasuredDimension(specSizeWidth, measuredHeight)
 
         //剩余宽度
-        val widthRemaining = specSizeWidth - TAB_ITEM_WIDTH_DEFAULT * childCount
+        var widthRemaining = specSizeWidth
+
+        widthRemaining -= TAB_ITEM_WIDTH_DEFAULT * childCount
 
         for (i in 0 until childCount) {
             val child = getChildAt(i)
 
-            val itemWidth = TAB_ITEM_WIDTH_DEFAULT + widthRemaining
+            val itemWidth = when (i) {
+                positionProgress.floor() -> TAB_ITEM_WIDTH_DEFAULT + ((1 + i - positionProgress) * widthRemaining).toInt()
+                positionProgress.ceil() -> TAB_ITEM_WIDTH_DEFAULT + widthRemaining - ((i - positionProgress) * widthRemaining).toInt()
+                else -> TAB_ITEM_WIDTH_DEFAULT
+            }
 
             measureChild(
                 child,
@@ -84,29 +90,20 @@ class SpreaderTabLayout @JvmOverloads constructor(
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        //剩余宽度
-        val widthRemaining = width - TAB_ITEM_WIDTH_DEFAULT * childCount
-
         //使用了的宽度
         var widthUsed = 0
 
         for (i in 0 until childCount) {
             val child = getChildAt(i)
 
-            val itemWidth = when (i) {
-                positionProgress.floor() -> TAB_ITEM_WIDTH_DEFAULT + ((1 + i - positionProgress) * widthRemaining).toInt()
-                positionProgress.ceil() -> TAB_ITEM_WIDTH_DEFAULT + widthRemaining - ((i - positionProgress) * widthRemaining).toInt()
-                else -> TAB_ITEM_WIDTH_DEFAULT
-            }
-
             child.layout(
                 widthUsed,
                 0,
-                widthUsed + itemWidth,
+                widthUsed + child.measuredWidth,
                 child.measuredHeight
             )
 
-            widthUsed += itemWidth
+            widthUsed += child.measuredWidth
 
             // [0,1] 为0时是收到状态，为1时是展开状态
             val spreaderProgress = when (i) {
