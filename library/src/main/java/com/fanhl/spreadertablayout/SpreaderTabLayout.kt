@@ -287,11 +287,11 @@ class SpreaderTabLayout @JvmOverloads constructor(
     }
 
     fun setupWithViewPager(viewPager: ViewPager?) {
-        SpreaderViewPagerHelper.attachWidth(this, viewPager)
+        SpreaderViewPagerHelper.attachWith(this, viewPager)
     }
 
     fun setupWithViewPager(recyclerView: RecyclerView?) {
-        SpreaderRecyclerViewHelper.attachWidth(this, recyclerView)
+        SpreaderRecyclerViewHelper.attachWith(this, recyclerView)
     }
 
     /**

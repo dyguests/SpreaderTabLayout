@@ -6,7 +6,8 @@ import androidx.viewpager.widget.ViewPager
  * 将SpreaderTabLayout与ViewPager绑定
  */
 class SpreaderViewPagerHelper private constructor(
-    private val tabLayout: SpreaderTabLayout, private val viewPager: ViewPager?
+    private val tabLayout: SpreaderTabLayout,
+    private val viewPager: ViewPager?
 ) {
     private val onPageChangeListener = object : ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(state: Int) {
@@ -51,7 +52,7 @@ class SpreaderViewPagerHelper private constructor(
         /**
          * 将SpreaderTabLayout与ViewPager绑定
          */
-        fun attachWidth(tabLayout: SpreaderTabLayout, viewPager: ViewPager?) {
+        fun attachWith(tabLayout: SpreaderTabLayout, viewPager: ViewPager?) {
             SpreaderViewPagerHelper(tabLayout, viewPager).setupWithViewPager()
         }
     }
