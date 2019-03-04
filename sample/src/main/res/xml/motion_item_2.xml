@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Transition
+        app:constraintSetEnd="@layout/item_2_end"
+        app:constraintSetStart="@layout/item_2_start"
+        app:duration="1000">
+        <KeyFrameSet>
+            <!--<KeyPosition-->
+            <!--app:framePosition="33"-->
+            <!--app:keyPositionType="pathRelative"-->
+            <!--app:percentX="-3"-->
+            <!--app:target="@id/v_3" />-->
+            <!--<KeyPosition-->
+            <!--app:framePosition="66"-->
+            <!--app:keyPositionType="pathRelative"-->
+            <!--app:percentX="1"-->
+            <!--app:percentY="1"-->
+            <!--app:target="@id/v_3" />-->
+        </KeyFrameSet>
+    </Transition>
+</MotionScene>
