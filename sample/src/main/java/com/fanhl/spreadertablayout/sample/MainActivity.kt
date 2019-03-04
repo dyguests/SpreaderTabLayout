@@ -16,11 +16,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        assignViews()
         initData()
+    }
 
+    private fun assignViews() {
         btn_page1.setOnClickListener { spreader_tab_layout.selectedPosition = 0 }
         btn_page2.setOnClickListener { spreader_tab_layout.selectedPosition = 1 }
         btn_page3.setOnClickListener { spreader_tab_layout.selectedPosition = 2 }
+
+        spreader_tab_layout.onSelectedPositionChange = { position ->
+            toast("$position touched")
+        }
     }
 
     private fun initData() {

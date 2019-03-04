@@ -9,7 +9,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
-import android.widget.Toast
 import androidx.annotation.CheckResult
 import androidx.annotation.Dimension
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -34,6 +33,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
             field = value
 
             startSpreaderAnim()
+            onSelectedPositionChange?.invoke(field)
         }
 
     // ---------- 变量 ----------
@@ -47,6 +47,9 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
     /** 正在动画中的实际的position */
     private var positionProgress = 0f
+
+    // ---------- 回调 ----------
+    var onSelectedPositionChange: ((position: Int) -> Unit)? = null
 
     init {
         //启用绘制背景
@@ -133,18 +136,30 @@ class SpreaderTabLayout @JvmOverloads constructor(
         return -1
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        when (event?.action) {
+    override fun onTouchEvent(ev: MotionEvent?): Boolean {
+        when (ev?.action) {
             MotionEvent.ACTION_DOWN -> {
             }
             MotionEvent.ACTION_UP -> {
                 if (isConsumeCurr) {
-                    Toast.makeText(context, "test touch", Toast.LENGTH_SHORT).show()
+                    val index = inChild(ev.x.toInt(), ev.y.toInt())
+                    if (index < 0) {
+//                        return false
+                        return super.onTouchEvent(ev)
+                    }
+                    performTabClick(index)
                 }
             }
         }
-//        return super.onTouchEvent(event)
+//        return super.onTouchEvent(ev)
         return true
+    }
+
+    /**
+     * 点击第i个tab处理
+     */
+    private fun performTabClick(position: Int) {
+        selectedPosition = position
     }
 
     /**
