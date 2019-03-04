@@ -148,11 +148,12 @@ class SpreaderTabLayout @JvmOverloads constructor(
                         return super.onTouchEvent(ev)
                     }
                     performTabClick(index)
+                    return true
                 }
             }
         }
-//        return super.onTouchEvent(ev)
-        return true
+        return super.onTouchEvent(ev)
+//        return true
     }
 
     /**
