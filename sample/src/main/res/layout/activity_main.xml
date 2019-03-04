@@ -53,9 +53,12 @@
             android:maxLines="1"
             android:text="SECOND"/>
 
-        <include
+        <Button
             android:id="@+id/item_3"
-            layout="@layout/item_2"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxLines="1"
+            android:text="THIRD"/>
     </com.fanhl.spreadertablayout.SpreaderTabLayout>
 
     <androidx.viewpager.widget.ViewPager
