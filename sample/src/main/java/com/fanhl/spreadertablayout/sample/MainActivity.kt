@@ -21,10 +21,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun assignViews() {
-        btn_page1.setOnClickListener { spreader_tab_layout.selectedPosition = 0 }
-        btn_page2.setOnClickListener { spreader_tab_layout.selectedPosition = 1 }
-        btn_page3.setOnClickListener { spreader_tab_layout.selectedPosition = 2 }
-
         spreader_tab_layout.onSelectedPositionChange = { position ->
         }
     }
