@@ -3,7 +3,7 @@ package com.fanhl.spreadertablayout
 import androidx.viewpager.widget.ViewPager
 
 /**
- * 当SpreaderTabLayout与ViewPager绑定
+ * 将SpreaderTabLayout与ViewPager绑定
  */
 class SpreaderViewPagerHelper private constructor(
     private val tabLayout: SpreaderTabLayout, private val viewPager: ViewPager?

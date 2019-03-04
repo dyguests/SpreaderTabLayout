@@ -12,6 +12,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.annotation.CheckResult
 import androidx.annotation.Dimension
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import kotlin.math.abs
 
@@ -287,6 +288,10 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
     fun setupWithViewPager(viewPager: ViewPager?) {
         SpreaderViewPagerHelper.attachWidth(this, viewPager)
+    }
+
+    fun setupWithViewPager(recyclerView: RecyclerView?) {
+        SpreaderRecyclerViewHelper.attachWidth(this, recyclerView)
     }
 
     /**
