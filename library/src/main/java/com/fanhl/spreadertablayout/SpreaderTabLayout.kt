@@ -50,7 +50,13 @@ class SpreaderTabLayout @JvmOverloads constructor(
     private var positionProgress = 0f
 
     // ---------- 回调 ----------
+
     var onSelectedPositionChange: ((position: Int) -> Unit)? = null
+
+    /**
+     * 绑定的视图
+     */
+    private var bindView: IBindView? = null
 
     init {
         //启用绘制背景
