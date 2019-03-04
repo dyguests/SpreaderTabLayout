@@ -74,6 +74,8 @@ in code:
 
 #### 1.2. MotionLayout
 
+**Cool interactive effects**
+
 You should set constraintLayout's constraintSet use `app:layoutDescription`.
 
         <androidx.constraintlayout.motion.widget.MotionLayout
