@@ -279,7 +279,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
     }
 
     fun setupWithViewPager(viewPager: ViewPager?) {
-        
+        SpreaderViewPagerHelper.setupWith(this,viewPager)
     }
 
     companion object {

@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.fanhl.spreadertablayout.ceil
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_view.*
 
@@ -36,6 +35,8 @@ class MainActivity : AppCompatActivity() {
 
         tab_layout.setupWithViewPager(view_pager)
         spreader_tab_layout.setupWithViewPager(view_pager)
+
+//        SnapHelper()
     }
 }
 
