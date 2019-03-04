@@ -4,15 +4,16 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
+import androidx.annotation.CheckResult
 import androidx.annotation.Dimension
 import androidx.constraintlayout.motion.widget.MotionLayout
+import kotlin.math.abs
 
 class SpreaderTabLayout @JvmOverloads constructor(
     context: Context,
@@ -37,7 +38,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
     // ---------- 变量 ----------
     /** 所有child的布局位置 */
-    private val childLayouts = mutableListOf<Rect>()
+    private val childLayouts = mutableListOf<SpreaderRect>()
 
     private var spreaderAnim: ValueAnimator? = null
 
@@ -53,7 +54,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
     override fun onViewAdded(child: View?) {
         super.onViewAdded(child)
-        childLayouts.add(Rect())
+        childLayouts.add(SpreaderRect())
     }
 
     override fun onViewRemoved(child: View?) {
@@ -62,8 +63,65 @@ class SpreaderTabLayout @JvmOverloads constructor(
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-//        return super.onInterceptTouchEvent(ev)
-        return true
+        when (ev?.action ?: return false) {
+            MotionEvent.ACTION_DOWN -> {
+                val index = inChild(ev.x.toInt(), ev.y.toInt())
+                if (index < 0) {
+                    return false
+                }
+
+                if (childLayouts[index].status == SpreaderRect.STATUS_COLLAPSED
+                    || childLayouts[index].status == SpreaderRect.STATUS_EXPENDING
+                ) {
+                    return true
+                } else if (childLayouts[index].status == SpreaderRect.STATUS_EXPENDED) {
+                    return false
+                }
+            }
+            else -> {
+                val index = inChild(ev.x.toInt(), ev.y.toInt())
+                if (index < 0) {
+                    return false
+                }
+
+                if (childLayouts[index].status == SpreaderRect.STATUS_COLLAPSED
+                    || childLayouts[index].status == SpreaderRect.STATUS_EXPENDING
+                ) {
+                    return true
+                } else if (childLayouts[index].status == SpreaderRect.STATUS_EXPENDED) {
+                    return false
+                }
+            }
+        }
+        return super.onInterceptTouchEvent(ev)
+//        return true
+    }
+
+    /**
+     * 返回(x,y)所在的child的index,没有则返回-1
+     */
+    @CheckResult
+    private fun inChild(x: Int, y: Int): Int {
+        childLayouts.forEachIndexed { index, childLayout ->
+            if (childLayout.left <= x) {
+                if (childLayout.right > x) {
+                    return if (childLayout.top <= y && childLayout.bottom >= y) {
+                        index
+                    } else {
+                        -1
+                    }
+                } else if (childLayout.right == x && index == childLayouts.size - 1) {
+                    return if (childLayout.top <= y && childLayout.bottom >= y) {
+                        index
+                    } else {
+                        -1
+                    }
+                }
+            } else {
+                return -1
+            }
+        }
+        return -1
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -97,6 +155,17 @@ class SpreaderTabLayout @JvmOverloads constructor(
                 positionProgress.floor() -> TAB_ITEM_WIDTH_DEFAULT + ((1 + i - positionProgress) * widthRemaining).toInt()
                 positionProgress.ceil() -> TAB_ITEM_WIDTH_DEFAULT + widthRemaining - ((i - positionProgress) * widthRemaining).toInt()
                 else -> TAB_ITEM_WIDTH_DEFAULT
+            }
+
+            //确认tab的展开状态
+            if (i == positionProgress.floor() && abs(i.toFloat() - positionProgress) > Float.POSITIVE_INFINITY) {
+                childLayouts[i].status = SpreaderRect.STATUS_EXPENDING
+            } else if (i == positionProgress.ceil() && abs(i.toFloat() - positionProgress) > Float.POSITIVE_INFINITY) {
+                childLayouts[i].status = SpreaderRect.STATUS_EXPENDING
+            } else if (abs(i.toFloat() - positionProgress) < Float.POSITIVE_INFINITY) {
+                childLayouts[i].status = SpreaderRect.STATUS_EXPENDED
+            } else {
+                childLayouts[i].status = SpreaderRect.STATUS_COLLAPSED
             }
 
             measureChild(
@@ -186,5 +255,19 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
         @Dimension(unit = 1)
         private val TAB_ITEM_WIDTH_DEFAULT = 48.px
+    }
+
+    data class SpreaderRect(
+        var left: Int = 0,
+        var top: Int = 0,
+        var right: Int = 0,
+        var bottom: Int = 0,
+        var status: Int = STATUS_COLLAPSED
+    ) {
+        companion object {
+            const val STATUS_COLLAPSED = 0
+            const val STATUS_EXPENDED = 1
+            const val STATUS_EXPENDING = 2
+        }
     }
 }
