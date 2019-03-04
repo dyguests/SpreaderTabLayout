@@ -12,6 +12,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.annotation.CheckResult
 import androidx.annotation.Dimension
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.viewpager.widget.ViewPager
 import kotlin.math.abs
 
 class SpreaderTabLayout @JvmOverloads constructor(
@@ -275,6 +276,10 @@ class SpreaderTabLayout @JvmOverloads constructor(
             requestLayout()
         }
         spreaderAnim?.start()
+    }
+
+    fun setupWithViewPager(viewPager: ViewPager?) {
+        
     }
 
     companion object {
