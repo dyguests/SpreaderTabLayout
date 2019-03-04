@@ -168,6 +168,7 @@ class SpreaderTabLayout @JvmOverloads constructor(
      */
     private fun performTabClick(position: Int) {
         selectedPosition = position
+        bindView?.onTabLayoutPositionChange(position)
     }
 
     /**
@@ -292,7 +293,19 @@ class SpreaderTabLayout @JvmOverloads constructor(
      * 将其它视图与TabLayout绑定
      */
     fun setupWith(bindView: IBindView?) {
-        // FIXME: 2019/3/4 fanhl 这里慢慢实现
+        if (this.bindView == bindView) {
+            return
+        }
+
+        if (this.bindView != null) {
+            this.bindView?.detach()
+        }
+
+        if (bindView != null) {
+            this.bindView = bindView
+        } else {
+            this.bindView = null
+        }
     }
 
     companion object {
@@ -320,7 +333,8 @@ class SpreaderTabLayout @JvmOverloads constructor(
      * 用来绑定多种BindedView的接口
      */
     interface IBindView {
-        fun onBindedViewPositionChange(position: Float)
+        fun onBindViewPositionChange(position: Float)
         fun onTabLayoutPositionChange(position: Int)
+        fun detach()
     }
 }
