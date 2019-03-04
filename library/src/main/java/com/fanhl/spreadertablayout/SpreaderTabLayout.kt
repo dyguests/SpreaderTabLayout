@@ -42,6 +42,9 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
     private var spreaderAnim: ValueAnimator? = null
 
+    /** 事件是否在当前消费 */
+    private var isConsumeCurr = false
+
     /** 正在动画中的实际的position */
     private var positionProgress = 0f
 
@@ -67,28 +70,34 @@ class SpreaderTabLayout @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> {
                 val index = inChild(ev.x.toInt(), ev.y.toInt())
                 if (index < 0) {
+                    isConsumeCurr = false
                     return false
                 }
 
                 if (childLayouts[index].status == SpreaderRect.STATUS_COLLAPSED
                     || childLayouts[index].status == SpreaderRect.STATUS_EXPENDING
                 ) {
+                    isConsumeCurr = true
                     return true
                 } else if (childLayouts[index].status == SpreaderRect.STATUS_EXPENDED) {
+                    isConsumeCurr = false
                     return false
                 }
             }
             else -> {
                 val index = inChild(ev.x.toInt(), ev.y.toInt())
                 if (index < 0) {
+                    isConsumeCurr = false
                     return false
                 }
 
                 if (childLayouts[index].status == SpreaderRect.STATUS_COLLAPSED
                     || childLayouts[index].status == SpreaderRect.STATUS_EXPENDING
                 ) {
+                    isConsumeCurr = true
                     return true
                 } else if (childLayouts[index].status == SpreaderRect.STATUS_EXPENDED) {
+                    isConsumeCurr = false
                     return false
                 }
             }
@@ -129,7 +138,9 @@ class SpreaderTabLayout @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> {
             }
             MotionEvent.ACTION_UP -> {
-                Toast.makeText(context, "test touch", Toast.LENGTH_SHORT).show()
+                if (isConsumeCurr) {
+                    Toast.makeText(context, "test touch", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 //        return super.onTouchEvent(event)
@@ -158,11 +169,11 @@ class SpreaderTabLayout @JvmOverloads constructor(
             }
 
             //确认tab的展开状态
-            if (i == positionProgress.floor() && abs(i.toFloat() - positionProgress) > Float.POSITIVE_INFINITY) {
+            if (i == positionProgress.floor() && abs(i.toFloat() - positionProgress) > Float.MIN_VALUE) {
                 childLayouts[i].status = SpreaderRect.STATUS_EXPENDING
-            } else if (i == positionProgress.ceil() && abs(i.toFloat() - positionProgress) > Float.POSITIVE_INFINITY) {
+            } else if (i == positionProgress.ceil() && abs(i.toFloat() - positionProgress) > Float.MIN_VALUE) {
                 childLayouts[i].status = SpreaderRect.STATUS_EXPENDING
-            } else if (abs(i.toFloat() - positionProgress) < Float.POSITIVE_INFINITY) {
+            } else if (abs(i.toFloat() - positionProgress) < Float.MIN_VALUE) {
                 childLayouts[i].status = SpreaderRect.STATUS_EXPENDED
             } else {
                 childLayouts[i].status = SpreaderRect.STATUS_COLLAPSED
