@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         btn_page3.setOnClickListener { spreader_tab_layout.selectedPosition = 2 }
 
         spreader_tab_layout.onSelectedPositionChange = { position ->
-            toast("$position touched")
         }
     }
 
