@@ -279,7 +279,14 @@ class SpreaderTabLayout @JvmOverloads constructor(
     }
 
     fun setupWithViewPager(viewPager: ViewPager?) {
-        SpreaderViewPagerHelper.setupWith(this,viewPager)
+        SpreaderViewPagerHelper.attachWidth(this, viewPager)
+    }
+
+    /**
+     * 将其它视图与TabLayout绑定
+     */
+    fun setupWith(bindView: IBindView?) {
+        // FIXME: 2019/3/4 fanhl 这里慢慢实现
     }
 
     companion object {
@@ -301,5 +308,13 @@ class SpreaderTabLayout @JvmOverloads constructor(
             const val STATUS_EXPENDED = 1
             const val STATUS_EXPENDING = 2
         }
+    }
+
+    /**
+     * 用来绑定多种BindedView的接口
+     */
+    interface IBindView {
+        fun onBindedViewPositionChange(position: Float)
+        fun onTabLayoutPositionChange(position: Int)
     }
 }
