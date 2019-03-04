@@ -11,11 +11,11 @@
         android:id="@+id/img_2"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:visibility="gone"
+        android:alpha="0"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/img_3"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/img_1"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_face_48dp"/>
 
@@ -23,13 +23,13 @@
         android:id="@+id/img_3"
         android:layout_width="100dp"
         android:layout_height="match_parent"
+        android:alpha="0"
         android:hint="hint text"
         android:maxLines="1"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/img_4"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/img_2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_face_48dp"/>
 
@@ -37,12 +37,11 @@
         android:id="@+id/img_4"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginEnd="8dp"
-        android:visibility="gone"
+        android:alpha="0"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_1"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/img_3"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_face_48dp"/>
 
@@ -51,17 +50,9 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/img_2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_face_48dp"/>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="48dp"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
