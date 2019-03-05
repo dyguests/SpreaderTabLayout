@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -261,7 +262,12 @@ class SpreaderTabLayout @JvmOverloads constructor(
 
             if (child is MotionLayout) {
                 child.progress = 1 - spreaderProgress
+
+                if (i == 2) {
+                    Log.d(TAG, "onLayout: child.progress:${1 - spreaderProgress}")
+                }
             }
+
         }
     }
 
