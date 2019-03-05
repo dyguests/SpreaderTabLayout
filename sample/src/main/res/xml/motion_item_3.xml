@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MotionScene xmlns:app="http://schemas.android.com/apk/res-auto">
     <Transition
-        app:constraintSetEnd="@layout/item_2_end"
-        app:constraintSetStart="@layout/item_2_start"
+        app:constraintSetEnd="@layout/item_3_end"
+        app:constraintSetStart="@layout/item_3_start"
         app:duration="1000">
         <KeyFrameSet>
             <!--<KeyPosition-->
