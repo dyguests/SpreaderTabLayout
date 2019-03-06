@@ -8,6 +8,12 @@
     app:layoutDescription="@xml/motion_item_3"
     tools:layout_height="48dp">
 
+    <View
+        android:id="@+id/v_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_tab"/>
+
     <TextView
         android:id="@+id/tv_1"
         android:layout_width="wrap_content"

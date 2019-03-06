@@ -55,10 +55,7 @@
 
         <include
             android:id="@+id/item_3"
-            layout="@layout/item_1"/>
-        <!--<include-->
-            <!--android:id="@+id/item_3"-->
-            <!--layout="@layout/item_3"/>-->
+            layout="@layout/item_3"/>
     </com.fanhl.spreadertablayout.SpreaderTabLayout>
 
     <androidx.viewpager.widget.ViewPager

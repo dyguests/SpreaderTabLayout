@@ -7,6 +7,14 @@
     android:layout_height="match_parent"
     tools:layout_height="48dp">
 
+    <View
+        android:id="@+id/v_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="@drawable/bg_tab"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/tv_1"
         android:layout_width="wrap_content"

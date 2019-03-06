@@ -16,6 +16,7 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import kotlin.math.abs
+import kotlin.math.min
 
 class SpreaderTabLayout @JvmOverloads constructor(
     context: Context,
@@ -253,18 +254,14 @@ class SpreaderTabLayout @JvmOverloads constructor(
                 childLayouts[i].bottom
             )
 
-            // [0,1] 为0时是收到状态，为1时是展开状态
-            val spreaderProgress = when (i) {
-                positionProgress.floor() -> 1 + i - positionProgress
-                positionProgress.ceil() -> i - positionProgress
-                else -> 0f
-            }
+            // [0,1] 为0时是起始状态，为1时是结束状态
+            val childProgress = min(abs(positionProgress - i), 1f)
 
             if (child is MotionLayout) {
-                child.progress = 1 - spreaderProgress
+                child.progress = childProgress
 
                 if (i == 2) {
-                    Log.d(TAG, "onLayout: child.progress:${1 - spreaderProgress}")
+                    Log.d(TAG, "onLayout: child.progress:${1 - childProgress}")
                 }
             }
 
