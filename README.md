@@ -4,7 +4,7 @@
 
 A TabLayout that each tab can be expanded,custom./一个Tab可以撑开、自定义的TabLayout。
 
-Can bind `ViewPager`,`RecyclerView`
+Can bind `ViewPager`,`RecyclerView`.
 
 ![sample](./graphics/sample.gif)
 
@@ -99,5 +99,5 @@ See:
 ## TODO
 
 - [x] The SpreaderTabLayout only supported match_parent now!
-- [ ] support RecyclerView.
+- [x] support RecyclerView.
 - [ ] tab background. 
