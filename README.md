@@ -63,6 +63,10 @@ in xml:
 in code:
 
     spreader_tab_layout.setupWithViewPager(view_pager)
+    
+    spreader_tab_layout.setupWithRecyclerView(recycler_view)
+
+**setup with RecyclerView will auto add PagerSnapHelper.**
 
 ## Notice
 
