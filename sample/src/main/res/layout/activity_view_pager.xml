@@ -42,20 +42,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tab_layout">
 
-        <include
-            android:id="@+id/item_1"
-            layout="@layout/item_1"/>
+        <include layout="@layout/item_1"/>
 
         <Button
-            android:id="@+id/item_2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:maxLines="1"
             android:text="SECOND"/>
 
-        <include
-            android:id="@+id/item_3"
-            layout="@layout/item_3"/>
+        <include layout="@layout/item_3"/>
     </com.fanhl.spreadertablayout.SpreaderTabLayout>
 
     <androidx.viewpager.widget.ViewPager
