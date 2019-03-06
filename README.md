@@ -4,6 +4,8 @@
 
 A TabLayout that each tab can be expanded,custom./一个Tab可以撑开、自定义的TabLayout。
 
+Can bind `ViewPager`,`RecyclerView`
+
 ![sample](./graphics/sample.gif)
 
 **Use AndroidX Artifacts.**
